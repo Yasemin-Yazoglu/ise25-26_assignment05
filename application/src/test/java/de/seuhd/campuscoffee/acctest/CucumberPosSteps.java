@@ -108,20 +108,20 @@ public class CucumberPosSteps {
     }
 
     // TODO: Add When step for new scenario
-    @When("I change the city of the POS {string} to {string}")
-    public void changeTheCityOfThePos(String posName, String posCity) {
+    @When("I change the description of the POS {string} to {string}")
+    public void changeTheDescriptionOfThePos(String posName, String posDescription) {
         PosDto posToBeUpdated = retrievePosByName(posName);
 
         PosDto updatedPosDto = PosDto.builder()
                 .id(posToBeUpdated.id())
                 .name(posToBeUpdated.name())
-                .description(posToBeUpdated.description())
+                .description(posDescription)
                 .type(posToBeUpdated.type())
                 .campus(posToBeUpdated.campus())
                 .street(posToBeUpdated.street())
                 .houseNumber(posToBeUpdated.houseNumber())
                 .postalCode(posToBeUpdated.postalCode())
-                .city(posCity)
+                .city(posToBeUpdated.city())
                 .build();
 
         List<PosDto> updatedList = updatePos(List.of(updatedPosDto));
@@ -138,10 +138,10 @@ public class CucumberPosSteps {
     }
 
     // TODO: Add Then step for new scenario
-    @Then("the city of the POS {string} should be {string}")
-    public void theCityOfThePosShouldBe(String posName, String posCity) {
+    @Then("the description of the POS {string} should be {string}")
+    public void theDescriptionOfThePosShouldBe(String posName, String posDescription) {
         PosDto retrievedPos = retrievePosByName(posName);
         assertThat(retrievedPos).isNotNull();
-        assertThat(retrievedPos.city()).isEqualTo(posCity);
+        assertThat(retrievedPos.description()).isEqualTo(posDescription);
     }
 }

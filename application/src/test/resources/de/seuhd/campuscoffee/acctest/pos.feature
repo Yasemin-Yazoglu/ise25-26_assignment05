@@ -17,5 +17,5 @@ Feature: Points of Sale Management
       | Schmelzpunkt           | Great waffles                    | CAFE            | ALTSTADT  | Hauptstraße     | 90           | 69117      | Heidelberg |
       | Bäcker Görtz           | Walking distance to lecture hall | BAKERY          | INF       | Berliner Str.   | 43           | 69120      | Heidelberg |
       | New Vending Machine    | Use only in case of emergencies  | VENDING_MACHINE | BERGHEIM  | Teststraße      | 99a          | 12345      | Other City |
-    When I change the city of the POS "Schmelzpunkt" to "Mannheim"
-    Then the city of the POS "Schmelzpunkt" should be "Mannheim"
+    When I change the description of the POS "Schmelzpunkt" to "Great Crepes"
+    Then the description of the POS "Schmelzpunkt" should be "Great Crepes"
