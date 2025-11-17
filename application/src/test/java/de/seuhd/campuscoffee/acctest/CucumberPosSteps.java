@@ -10,6 +10,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -92,6 +93,11 @@ public class CucumberPosSteps {
     }
 
     // TODO: Add Given step for new scenario
+    @Given("a POS list of three")
+    public void aPosListOfThree(List<PosDto> posList) {
+        createdPosList = createPos(posList);
+        assertThat(createdPosList).hasSize(3);
+    }
 
     // When -----------------------------------------------------------------------
 
@@ -102,6 +108,24 @@ public class CucumberPosSteps {
     }
 
     // TODO: Add When step for new scenario
+    @When("I change the city of the POS {string} to {string}")
+    public void changeTheCityOfThePos(String posName, String posCity) {
+        PosDto posToBeUpdated = retrievePosByName(posName);
+
+        PosDto updatedPosDto = PosDto.builder()
+                .id(posToBeUpdated.id())
+                .name(posToBeUpdated.name())
+                .description(posToBeUpdated.description())
+                .type(posToBeUpdated.type())
+                .campus(posToBeUpdated.campus())
+                .street(posToBeUpdated.street())
+                .houseNumber(posToBeUpdated.houseNumber())
+                .postalCode(posToBeUpdated.postalCode())
+                .city(posCity)
+                .build();
+
+        List<PosDto> updatedList = updatePos(List.of(updatedPosDto));
+    }
 
     // Then -----------------------------------------------------------------------
 
@@ -114,4 +138,10 @@ public class CucumberPosSteps {
     }
 
     // TODO: Add Then step for new scenario
+    @Then("the city of the POS {string} should be {string}")
+    public void theCityOfThePosShouldBe(String posName, String posCity) {
+        PosDto retrievedPos = retrievePosByName(posName);
+        assertThat(retrievedPos).isNotNull();
+        assertThat(retrievedPos.city()).isEqualTo(posCity);
+    }
 }

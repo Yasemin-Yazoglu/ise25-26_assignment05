@@ -4,6 +4,7 @@ import de.seuhd.campuscoffee.api.dtos.PosDto;
 import de.seuhd.campuscoffee.api.mapper.PosDtoMapper;
 import de.seuhd.campuscoffee.domain.model.CampusType;
 import de.seuhd.campuscoffee.domain.ports.PosService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,13 @@ public class PosController {
     }
 
     // TODO: Implement a new GET endpoint that supports filtering POS by name, e.g., /filter?name=Schmelzpunkt
+    @GetMapping("/filter")
+    public ResponseEntity<PosDto> getByName(
+            @RequestParam("name") String name) {
+        return ResponseEntity.ok(
+                posDtoMapper.fromDomain(posService.getByName(name))
+        );
+    }
 
     @PostMapping("")
     public ResponseEntity<PosDto> create(
